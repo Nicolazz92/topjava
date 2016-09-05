@@ -40,13 +40,12 @@ public class UserMealsUtil {
                             for (UserMeal meal : m.getValue()) {
                                 caloriesSum += meal.getCalories();
                             }
-                            if (caloriesSum > caloriesPerDay) {
-                                result.addAll(m.getValue()
-                                        .stream()
-                                        .filter(me -> TimeUtil.isBetween(me.getDateTime().toLocalTime(), startTime, endTime))
-                                        .map(meal -> new UserMealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), true))
-                                        .collect(Collectors.toList()));
-                            }
+                    int finalCaloriesSum = caloriesSum;
+                    result.addAll(m.getValue()
+                            .stream()
+                            .filter(me -> TimeUtil.isBetween(me.getDateTime().toLocalTime(), startTime, endTime))
+                            .map(meal -> new UserMealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), finalCaloriesSum > caloriesPerDay))
+                            .collect(Collectors.toList()));
                         }
                 );
 
