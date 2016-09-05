@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * GKislin
@@ -28,56 +30,27 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        Map<LocalDate, Integer> caloriesMap = createCaloriesMap(mealList);
-
         List<UserMealWithExceed> result = new ArrayList<>();
 
-        mealList.parallelStream().filter(userMeal -> userMeal.getDateTime().toLocalTime().isAfter(startTime) && //check startTime
-                userMeal.getDateTime().toLocalTime().isBefore(endTime)).forEach(userMeal -> { //check endTime
-            if (caloriesMap.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay) { //check calories
-                result.add(new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), true));
-            } else {
-                result.add(new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), false));
-            }
-        });
-
-//        for (UserMeal userMeal : mealList) {
-//            if (userMeal.getDateTime().toLocalTime().isAfter(startTime) && //check startTime
-//                    userMeal.getDateTime().toLocalTime().isBefore(endTime)) { //check endTime
-//                if (caloriesMap.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay) { //check calories
-//                    result.add(new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), true));
-//                } else {
-//                    result.add(new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), false));
-//                }
-//            }
-//        }
+        mealList
+                .stream()
+                .collect(Collectors.groupingBy(m -> m.getDateTime().toLocalDate()))
+                .entrySet()
+                .forEach(m -> {
+                            int caloriesSum = 0;
+                            for (UserMeal meal : m.getValue()) {
+                                caloriesSum += meal.getCalories();
+                            }
+                            if (caloriesSum > caloriesPerDay) {
+                                result.addAll(m.getValue()
+                                        .stream()
+                                        .map(meal -> new UserMealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), true))
+                                        .collect(Collectors.toList()));
+                            }
+                        }
+                );
 
         return result;
     }
 
-    private static Map<LocalDate, Integer> createCaloriesMap(List<UserMeal> mealList) {
-        HashMap<LocalDate, Integer> result = new HashMap<>();
-
-        mealList.parallelStream().forEach(userMeal -> {
-            LocalDate date = userMeal.getDateTime().toLocalDate();
-            Integer calories = userMeal.getCalories();
-            if (result.containsKey(date)) {
-                result.put(date, calories + result.get(date));
-            } else {
-                result.put(date, calories);
-            }
-        });
-
-//        for (UserMeal userMeal : mealList) {
-//            LocalDate date = userMeal.getDateTime().toLocalDate();
-//            Integer calories = userMeal.getCalories();
-//            if (result.containsKey(date)) {
-//                result.put(date, calories + result.get(date));
-//            } else {
-//                result.put(date, calories);
-//            }
-//        }
-
-        return result;
-    }
 }
