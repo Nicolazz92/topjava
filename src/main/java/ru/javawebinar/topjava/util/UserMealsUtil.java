@@ -36,11 +36,10 @@ public class UserMealsUtil {
                 .collect(Collectors.groupingBy(m -> m.getDateTime().toLocalDate()))
                 .entrySet()
                 .forEach(m -> {
-                            int caloriesSum = 0;
-                            for (UserMeal meal : m.getValue()) {
-                                caloriesSum += meal.getCalories();
-                            }
-                    int finalCaloriesSum = caloriesSum;
+                    int finalCaloriesSum = m.getValue()
+                            .stream()
+                            .mapToInt(UserMeal::getCalories)
+                            .sum();
                     result.addAll(m.getValue()
                             .stream()
                             .filter(me -> TimeUtil.isBetween(me.getDateTime().toLocalTime(), startTime, endTime))
