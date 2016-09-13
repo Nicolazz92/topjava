@@ -36,13 +36,23 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>addServlet</servlet-name>
-        <servlet-class>ru.javawebinar.topjava.web.AddServlet</servlet-class>
+        <servlet-name>manipulateServlet</servlet-name>
+        <servlet-class>ru.javawebinar.topjava.web.ManipulateServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>addServlet</servlet-name>
-        <url-pattern>/add</url-pattern>
+        <servlet-name>manipulateServlet</servlet-name>
+        <url-pattern>/manipulate</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>editPusher</servlet-name>
+        <servlet-class>ru.javawebinar.topjava.web.EditPusher</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editPusher</servlet-name>
+        <url-pattern>/editPusher</url-pattern>
     </servlet-mapping>
 
 </web-app>

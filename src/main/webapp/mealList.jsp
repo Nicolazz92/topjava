@@ -1,3 +1,5 @@
+<%@ page import="ru.javawebinar.topjava.model.Meal" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -27,24 +29,44 @@
             <td>
                 <a href="delete?id=${current.getId()}">Delete</a>
             </td>
+            <td>
+                <a href="editPusher?id=${current.getId()}">Edit</a>
+            </td>
 
         </tr>
     </c:forEach>
 
-    <form action="<c:url value="/add"/>" method="POST">
+    <form action="<c:url value="/manipulate"/>" method="POST">
+
+        <%
+            int id = -1;
+            LocalDateTime time = null;
+            String desc = "";
+            int calories = 0;
+            try {
+                id = ((Meal) request.getAttribute("editMeal")).getId();
+                time = ((Meal) request.getAttribute("editMeal")).getDateTime();
+                desc = ((Meal) request.getAttribute("editMeal")).getDescription();
+                calories = ((Meal) request.getAttribute("editMeal")).getCalories();
+            } catch (NullPointerException e) {
+
+            }
+        %>
+
+        <input name="id" type="hidden" value=<%=id%>>
         <td colspan="1">
             <label>
-                <input name="localdate" type="datetime-local">
+                <input name="localdate" type="datetime-local" value=<%=time%>>
             </label>
         </td>
         <td colspan="1">
             <label>
-                <input name="description" type="text">
+                <input name="description" type="text" value=<%=desc%>>
             </label>
         </td>
         <td colspan="1">
             <label>
-                <input name="calories" type="number">
+                <input name="calories" type="number" value=<%=calories%>>
             </label>
         </td>
         <td colspan="2">
