@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.model;
 
+import ru.javawebinar.topjava.dao.Data;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,6 +11,8 @@ import java.time.LocalTime;
  * 11.01.2015.
  */
 public class Meal {
+    private final int id;
+
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -19,6 +23,11 @@ public class Meal {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+        this.id = Data.generateId();
+    }
+
+    public int getId() {
+        return id;
     }
 
     public LocalDateTime getDateTime() {

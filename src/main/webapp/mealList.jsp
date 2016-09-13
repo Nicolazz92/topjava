@@ -24,8 +24,33 @@
             <td><c:out value="${fn:replace(current.getDateTime(), 'T', ' ')}"/></td>
             <td><c:out value="${current.getDescription()}"/></td>
             <td><c:out value="${current.getCalories()}"/></td>
+            <td>
+                <a href="delete?id=${current.getId()}">Delete</a>
+            </td>
+
         </tr>
     </c:forEach>
+
+    <form action="<c:url value="/add"/>" method="POST">
+        <td colspan="1">
+            <label>
+                <input name="localdate" type="datetime-local">
+            </label>
+        </td>
+        <td colspan="1">
+            <label>
+                <input name="description" type="text">
+            </label>
+        </td>
+        <td colspan="1">
+            <label>
+                <input name="calories" type="number">
+            </label>
+        </td>
+        <td colspan="2">
+            <input type="submit" value="Отправить">
+        </td>
+    </form>
 
 </table>
 </body>
