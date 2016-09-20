@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by nicolas on 18.09.2016.
  */
-public interface MealRestController {
+public interface RestController {
     List<MealWithExceed> getMeals();
 
     List<MealWithExceed> getFilteredMeals(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime);

@@ -18,14 +18,10 @@ import static org.slf4j.LoggerFactory.getLogger;
  * 06.03.2015.
  */
 @Controller
-public class MealRestControllerImpl implements MealRestController {
-    private static final Logger LOG = getLogger(MealRestControllerImpl.class);
+public class RestControllerImpl implements RestController {
+    private static final Logger LOG = getLogger(RestControllerImpl.class);
     private MealService service;
-    private int authorizedUserId = -1;
-
-    {
-        authorizedUserId = AuthorizedUser.id();
-    }
+    private int authorizedUserId;
 
     @Override
     public List<MealWithExceed> getMeals() {

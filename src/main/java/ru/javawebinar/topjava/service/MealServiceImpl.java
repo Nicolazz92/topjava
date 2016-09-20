@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.slf4j.LoggerFactory.getLogger;
+import static ru.javawebinar.topjava.util.exception.ExceptionUtil.checkNotFound;
+import static ru.javawebinar.topjava.util.exception.ExceptionUtil.checkNotFoundWithId;
 
 /**
  * GKislin
@@ -26,56 +28,36 @@ public class MealServiceImpl implements MealService {
     private MealRepository repository;
 
     @Override
-    public List<MealWithExceed> getFilteredMeals(int authorizedUserId, int caloriesPerDay, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        LOG.info("getFilteredMeals for user {}, parameters: {}, {}, {}, {}, {}", authorizedUserId, caloriesPerDay, startDate, startTime, endDate, endTime);
-        return MealsUtil.getFilteredWithExceeded(repository.getAll(authorizedUserId), startTime, endTime, caloriesPerDay)
+    public List<MealWithExceed> getFilteredMeals(int userId, int caloriesPerDay, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        LOG.info("getFilteredMeals for user {}, parameters: {}, {}, {}, {}, {}", userId, caloriesPerDay, startDate, startTime, endDate, endTime);
+        return MealsUtil.getFilteredWithExceeded(repository.getFilteredByDate(userId, startDate, endDate), startTime, endTime, caloriesPerDay)
                 .stream()
-                .filter(mealWithExceed -> mealWithExceed.getDateTime().toLocalDate().isAfter(startDate) &&
-                        mealWithExceed.getDateTime().toLocalDate().isBefore(endDate))
+                .filter(mealWithExceed -> mealWithExceed.getDateTime().toLocalTime().isAfter(startTime) &&
+                        mealWithExceed.getDateTime().toLocalTime().isBefore(endTime))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Meal getMeal(int authorizedUserId, int mealId) throws NotFoundException {
-        LOG.info("getMeal for user {}, mealId = {}", authorizedUserId, mealId);
-        Meal result = repository.get(mealId, authorizedUserId);
-        if (result == null) {
-            throw new NotFoundException("MealServiceImpl.getMeal: Have no meal");
-        } else {
-            return result;
-        }
+    public Meal getMeal(int userId, int mealId) throws NotFoundException {
+        LOG.info("getMeal for user {}, mealId = {}", userId, mealId);
+        return checkNotFoundWithId(repository.get(mealId, userId), mealId);
     }
 
     @Override
-    public Meal removeMeal(int authorizedUserId, int mealId) throws NotFoundException {
-        LOG.info("removeMeal for user {}, mealId = {}", authorizedUserId, mealId);
-        Meal result = repository.remove(mealId, authorizedUserId);
-        if (result == null) {
-            throw new NotFoundException("MealServiceImpl.removeMeal: Have no meal");
-        } else {
-            return result;
-        }
+    public Meal removeMeal(int userId, int mealId) throws NotFoundException {
+        LOG.info("removeMeal for user {}, mealId = {}", userId, mealId);
+        return checkNotFoundWithId(repository.remove(mealId, userId), mealId);
     }
 
     @Override
-    public Meal saveMeal(int authorizedUserId, Meal meal) throws NotFoundException {
-        LOG.info("saveMeal for user {}, mealId = {}", authorizedUserId, meal.getId());
-        Meal result = repository.save(meal, authorizedUserId);
-        if (result == null) {
-            throw new NotFoundException("MealServiceImpl.saveMeal: Have no meal");
-        } else {
-            return result;
-        }
+    public Meal saveMeal(int userId, Meal meal) throws NotFoundException {
+        LOG.info("saveMeal for user {}, mealId = {}", userId, meal.getId());
+        return checkNotFound(repository.save(meal, userId), "userId=" + userId);
     }
 
     @Override
-    public Meal updateMeal(int authorizedUserId, Meal meal) throws NotFoundException {
-        LOG.info("updateMeal for user {}, mealId = {}", authorizedUserId, meal.getId());
-        Meal result = saveMeal(authorizedUserId, meal);
-        if (result == null) {
-            throw new NotFoundException("MealServiceImpl.updateMeal: Have no meal");
-        } else {
-            return result;
-        }
+    public Meal updateMeal(int userId, Meal meal) throws NotFoundException {
+        LOG.info("updateMeal for user {}, mealId = {}", userId, meal.getId());
+        return checkNotFound(repository.update(meal, userId), "userId=" + userId);
     }
 }
