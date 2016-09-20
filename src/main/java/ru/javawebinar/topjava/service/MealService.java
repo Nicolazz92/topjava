@@ -12,13 +12,13 @@ import java.util.List;
  * 15.06.2015.
  */
 public interface MealService {
-    List<MealWithExceed> getFilteredMeals(int userId, int caloriesPerDay, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime);
+    List<MealWithExceed> getFiltered(int userId, int caloriesPerDay, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime);
 
-    Meal getMeal(int userId, int mealId);
+    Meal get(int userId, int mealId);
 
-    Meal removeMeal(int userId, int mealId);
+    Meal remove(int userId, int mealId);
 
-    Meal saveMeal(int userId, Meal meal);
+    Meal save(int userId, Meal meal);
 
-    Meal updateMeal(int userId, Meal meal);
+    Meal update(int userId, Meal meal);
 }

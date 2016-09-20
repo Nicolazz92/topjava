@@ -28,7 +28,7 @@ public class MealServiceImpl implements MealService {
     private MealRepository repository;
 
     @Override
-    public List<MealWithExceed> getFilteredMeals(int userId, int caloriesPerDay, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+    public List<MealWithExceed> getFiltered(int userId, int caloriesPerDay, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
         LOG.info("getFilteredMeals for user {}, parameters: {}, {}, {}, {}, {}", userId, caloriesPerDay, startDate, startTime, endDate, endTime);
         return MealsUtil.getFilteredWithExceeded(repository.getFilteredByDate(userId, startDate, endDate), startTime, endTime, caloriesPerDay)
                 .stream()
@@ -38,25 +38,25 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal getMeal(int userId, int mealId) throws NotFoundException {
+    public Meal get(int userId, int mealId) throws NotFoundException {
         LOG.info("getMeal for user {}, mealId = {}", userId, mealId);
         return checkNotFoundWithId(repository.get(mealId, userId), mealId);
     }
 
     @Override
-    public Meal removeMeal(int userId, int mealId) throws NotFoundException {
+    public Meal remove(int userId, int mealId) throws NotFoundException {
         LOG.info("removeMeal for user {}, mealId = {}", userId, mealId);
         return checkNotFoundWithId(repository.remove(mealId, userId), mealId);
     }
 
     @Override
-    public Meal saveMeal(int userId, Meal meal) throws NotFoundException {
+    public Meal save(int userId, Meal meal) throws NotFoundException {
         LOG.info("saveMeal for user {}, mealId = {}", userId, meal.getId());
         return checkNotFound(repository.save(meal, userId), "userId=" + userId);
     }
 
     @Override
-    public Meal updateMeal(int userId, Meal meal) throws NotFoundException {
+    public Meal update(int userId, Meal meal) throws NotFoundException {
         LOG.info("updateMeal for user {}, mealId = {}", userId, meal.getId());
         return checkNotFound(repository.update(meal, userId), "userId=" + userId);
     }
