@@ -31,7 +31,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
             mealUserRelation.put(mealId, userId);
         }
 
-        static void removeRelation(int mealId, int userId) {
+        static void removeRelation(int mealId) {
             mealUserRelation.remove(mealId);
         }
     }
@@ -57,8 +57,8 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal remove(int id, int userId) {
-        if (MealUserRelation.getUserIdByMeaIdl(repository.get(id).getId()) == userId) {
-            MealUserRelation.removeRelation(id, MealUserRelation.getUserIdByMeaIdl(id));
+        if (repository.get(id) != null && MealUserRelation.getUserIdByMeaIdl(repository.get(id).getId()) == userId) {
+            MealUserRelation.removeRelation(id);
             return repository.remove(id);
         } else {
             return null;
