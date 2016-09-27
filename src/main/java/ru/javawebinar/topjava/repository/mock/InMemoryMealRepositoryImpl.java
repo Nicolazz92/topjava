@@ -13,8 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
-import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
+
+//import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+//import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 /**
  * GKislin
@@ -22,6 +24,9 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
  */
 @Repository
 public class InMemoryMealRepositoryImpl implements MealRepository {
+
+    public static final int USER_ID = START_SEQ;
+    public static final int ADMIN_ID = START_SEQ + 1;
 
     private static final Comparator<Meal> MEAL_COMPARATOR = Comparator.comparing(Meal::getDateTime).reversed();
 
