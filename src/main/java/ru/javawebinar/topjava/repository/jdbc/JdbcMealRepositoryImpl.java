@@ -12,8 +12,6 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,13 +24,8 @@ import java.util.List;
 @Repository
 public class JdbcMealRepositoryImpl implements MealRepository {
 
-    private static final RowMapper<Meal> ROW_MAPPER = new RowMapper<Meal>() {
-        @Override
-        public Meal mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Meal(rs.getInt("id"), rs.getTimestamp("time").toLocalDateTime(),
-                    rs.getString("description"), rs.getInt("calories"));
-        }
-    };
+    private static final RowMapper<Meal> ROW_MAPPER = (rs, rowNum) -> new Meal(rs.getInt("id"), rs.getTimestamp("time").toLocalDateTime(),
+            rs.getString("description"), rs.getInt("calories"));
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
