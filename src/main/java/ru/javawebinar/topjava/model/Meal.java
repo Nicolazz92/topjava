@@ -31,7 +31,7 @@ public class Meal extends BaseEntity {
     private LocalDateTime dateTime;
 
     @NotNull
-    @Column(name = "date_time", nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
     @NotNull

@@ -1,11 +1,10 @@
 package ru.javawebinar.topjava.repository.jpa;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,14 +23,15 @@ public class JpaMealRepositoryImpl implements MealRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
+        if (!meal.isNew() && get(meal.getId(), userId) == null) {
+            return null;
+        }
+        meal.setUser(entityManager.getReference(User.class, userId));
         if (meal.isNew()) {
-            meal.setUser(userRepository.get(userId));
+            entityManager.persist(meal);
             return meal;
         } else {
             return entityManager.merge(meal);
@@ -50,7 +50,8 @@ public class JpaMealRepositoryImpl implements MealRepository {
         return entityManager.createNamedQuery(Meal.GET, Meal.class)
                 .setParameter("userId", userId)
                 .setParameter("id", id)
-                .getSingleResult();
+                .getResultList()
+                .stream().findFirst().orElse(null);
     }
 
     @Override
