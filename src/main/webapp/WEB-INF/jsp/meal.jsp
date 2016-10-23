@@ -5,6 +5,7 @@
 <head>
     <title>Meal</title>
     <link rel="stylesheet" href="css/style.css">
+    <jsp:include page="fragments/headTag.jsp"/>
 </head>
 <body>
 <section>
@@ -12,7 +13,7 @@
     <h3>${param.action == 'create' ? 'Create meal' : 'Edit meal'}</h3>
     <hr>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
-    <form method="post" action="meals">
+    <form method="post" action="meals/save">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
             <dt>DateTime:</dt>
