@@ -3,31 +3,27 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <html>
-<head>
-    <title><fmt:message key="meals.title"/></title>
-    <link rel="stylesheet" href="resources/css/style.css">
-</head>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <h2><a href="${pageContext.request.contextPath}/"><fmt:message key="app.home"/></a></h2>
     <h3><fmt:message key="meals.title"/></h3>
+
     <form method="post" action="meals/filter">
         <dl>
-            <dt><fmt:message key="meals.from_date"/></dt>
+            <dt><fmt:message key="meals.startDate"/>:</dt>
             <dd><input type="date" name="startDate" value="${startDate}"></dd>
         </dl>
         <dl>
-            <dt><fmt:message key="meals.to_date"/></dt>
+            <dt><fmt:message key="meals.endDate"/>:</dt>
             <dd><input type="date" name="endDate" value="${endDate}"></dd>
         </dl>
         <dl>
-            <dt><fmt:message key="meals.from_time"/></dt>
+            <dt><fmt:message key="meals.startTime"/>:</dt>
             <dd><input type="time" name="startTime" value="${startTime}"></dd>
         </dl>
         <dl>
-            <dt><fmt:message key="meals.to_time"/></dt>
+            <dt><fmt:message key="meals.endTime"/>:</dt>
             <dd><input type="time" name="endTime" value="${endTime}"></dd>
         </dl>
         <button type="submit"><fmt:message key="meals.filter"/></button>
@@ -38,7 +34,7 @@
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
-            <th><fmt:message key="meals.date"/></th>
+            <th><fmt:message key="meals.dateTime"/></th>
             <th><fmt:message key="meals.description"/></th>
             <th><fmt:message key="meals.calories"/></th>
             <th></th>
@@ -55,8 +51,8 @@
                 </td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
-                <td><a href="meals/update?id=${meal.id}"><fmt:message key="meals.edit"/></a></td>
-                <td><a href="meals/delete?id=${meal.id}"><fmt:message key="meals.delete"/></a></td>
+                <td><a href="meals/update?id=${meal.id}"><fmt:message key="common.update"/></a></td>
+                <td><a href="meals/delete?id=${meal.id}"><fmt:message key="common.delete"/></a></td>
             </tr>
         </c:forEach>
     </table>
