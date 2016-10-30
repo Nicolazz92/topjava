@@ -12,6 +12,7 @@ import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -77,7 +78,7 @@ public class MealRestControllerTest extends AbstractControllerTest {
         created.setId(returned.getId());
 
         MATCHER.assertEquals(created, returned);
-        ArrayList<Meal> newMeals = new ArrayList<>();
+        List<Meal> newMeals = new ArrayList<>();
         newMeals.add(created);
         newMeals.addAll(MEALS);
         MATCHER.assertCollectionEquals(newMeals, mealService.getAll(AuthorizedUser.id()));
