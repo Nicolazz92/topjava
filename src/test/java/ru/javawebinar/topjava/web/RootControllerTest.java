@@ -1,12 +1,12 @@
-package ru.javawebinar.topjava.web.user;
+package ru.javawebinar.topjava.web;
 
 import org.junit.Test;
-import ru.javawebinar.topjava.web.AbstractControllerTest;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static ru.javawebinar.topjava.MealTestData.MEAL1;
 import static ru.javawebinar.topjava.MealTestData.MEAL1_ID;
 import static ru.javawebinar.topjava.UserTestData.USER;
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
@@ -44,8 +44,9 @@ public class RootControllerTest extends AbstractControllerTest {
                 .andExpect(model().attribute("meals", hasItem(
                         allOf(
                                 hasProperty("id", is(MEAL1_ID)),
-                                hasProperty("description", is("Завтрак"))
+                                hasProperty("description", is(MEAL1.getDescription()))
                         )
                 )));
     }
+
 }
