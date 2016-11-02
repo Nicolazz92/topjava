@@ -53,6 +53,29 @@ function save() {
     });
 }
 
+function updateFilteredTable() {
+    $.post(ajaxUrl + "/filter", function (data) {
+        datatableApi.fnClearTable();
+        $.each(data, function (key, item) {
+            datatableApi.fnAddData(item);
+        });
+        datatableApi.fnDraw();
+    });
+}
+
+function filter() {
+    var form = $('#filterForm');
+    $.ajax({
+        type: "POST",
+        url: ajaxUrl + "/filter",
+        data: form.serialize(),
+        success: function () {
+            updateFilteredTable();
+            successNoty('Filtered');
+        }
+    });
+}
+
 var failedNote;
 
 function closeNoty() {

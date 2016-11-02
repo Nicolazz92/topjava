@@ -14,7 +14,8 @@
             <section>
                 <h3><fmt:message key="meals.title"/></h3>
 
-                <form method="post" action="meals/filter">
+                <%--<form method="post" action="meals/filter">--%>
+                <form method="post" class="form-inline" id="filterForm">
                     <dl>
                         <dt><fmt:message key="meals.startDate"/>:</dt>
                         <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -31,7 +32,7 @@
                         <dt><fmt:message key="meals.endTime"/>:</dt>
                         <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
                     </dl>
-                    <button type="submit"><fmt:message key="meals.filter"/></button>
+                    <button type="button"><fmt:message key="meals.filter"/></button>
                 </form>
                 <hr>
                 <a class="btn btn-sm btn-info" onclick="add()"><fmt:message key="meals.add"/></a>

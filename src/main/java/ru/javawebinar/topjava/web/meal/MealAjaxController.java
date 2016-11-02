@@ -6,9 +6,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.TimeUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by nicolas on 02.11.2016.
@@ -21,6 +25,22 @@ public class MealAjaxController extends AbstractMealController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MealWithExceed> getAll() {
         return super.getAll();
+    }
+
+    @RequestMapping("/filter")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MealWithExceed> getFiltered(
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("startTime") String startTime,
+            @RequestParam("endTime") String endTime) {
+
+        LocalDate start_date = Objects.equals(startDate, "") || startDate == null ? LocalDate.MIN : TimeUtil.parseLocalDate(startDate);
+        LocalDate end_date = Objects.equals(endDate, "") || endDate == null ? LocalDate.MAX : TimeUtil.parseLocalDate(endDate);
+        LocalTime start_time = Objects.equals(startTime, "") || startTime == null ? LocalTime.MIN : TimeUtil.parseLocalTime(startTime);
+        LocalTime end_time = Objects.equals(endTime, "") || endTime == null ? LocalTime.MAX : TimeUtil.parseLocalTime(endTime);
+
+        return super.getBetween(start_date, start_time, end_date, end_time);
     }
 
     @DeleteMapping("/{id}")
