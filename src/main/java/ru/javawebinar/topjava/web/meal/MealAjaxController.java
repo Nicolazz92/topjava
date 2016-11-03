@@ -30,10 +30,10 @@ public class MealAjaxController extends AbstractMealController {
     @RequestMapping("/filter")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MealWithExceed> getFiltered(
-            @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate,
-            @RequestParam("startTime") String startTime,
-            @RequestParam("endTime") String endTime) {
+            @RequestParam(value = "startDate", required = false) String startDate,
+            @RequestParam(value = "endDate", required = false) String endDate,
+            @RequestParam(value = "startTime", required = false) String startTime,
+            @RequestParam(value = "endTime", required = false) String endTime) {
 
         LocalDate start_date = Objects.equals(startDate, "") ? LocalDate.MIN : TimeUtil.parseLocalDate(startDate);
         LocalDate end_date = Objects.equals(endDate, "") ? LocalDate.MAX : TimeUtil.parseLocalDate(endDate);

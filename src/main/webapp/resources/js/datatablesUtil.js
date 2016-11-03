@@ -60,20 +60,18 @@ function filter() {
         url: ajaxUrl + "/filter",
         data: form.serialize(),
         success: function () {
-            updateFilteredTable();
+            updateFilteredTable(data);
             successNoty('Filtered');
         }
     });
 }
 
-function updateFilteredTable() {
-    $.post(ajaxUrl + "/filter", function (data) {
-        datatableApi.fnClearTable();
-        $.each(data, function (key, item) {
-            datatableApi.fnAddData(item);
-        });
-        datatableApi.fnDraw();
+function updateFilteredTable(data) {
+    datatableApi.fnClearTable();
+    $.each(data, function (key, item) {
+        datatableApi.fnAddData(item);
     });
+    datatableApi.fnDraw();
 }
 
 var failedNote;
