@@ -53,16 +53,6 @@ function save() {
     });
 }
 
-function updateFilteredTable() {
-    $.post(ajaxUrl + "/filter", function (data) {
-        datatableApi.fnClearTable();
-        $.each(data, function (key, item) {
-            datatableApi.fnAddData(item);
-        });
-        datatableApi.fnDraw();
-    });
-}
-
 function filter() {
     var form = $('#filterForm');
     $.ajax({
@@ -73,6 +63,16 @@ function filter() {
             updateFilteredTable();
             successNoty('Filtered');
         }
+    });
+}
+
+function updateFilteredTable() {
+    $.post(ajaxUrl + "/filter", function (data) {
+        datatableApi.fnClearTable();
+        $.each(data, function (key, item) {
+            datatableApi.fnAddData(item);
+        });
+        datatableApi.fnDraw();
     });
 }
 

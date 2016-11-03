@@ -35,10 +35,10 @@ public class MealAjaxController extends AbstractMealController {
             @RequestParam("startTime") String startTime,
             @RequestParam("endTime") String endTime) {
 
-        LocalDate start_date = Objects.equals(startDate, "") || startDate == null ? LocalDate.MIN : TimeUtil.parseLocalDate(startDate);
-        LocalDate end_date = Objects.equals(endDate, "") || endDate == null ? LocalDate.MAX : TimeUtil.parseLocalDate(endDate);
-        LocalTime start_time = Objects.equals(startTime, "") || startTime == null ? LocalTime.MIN : TimeUtil.parseLocalTime(startTime);
-        LocalTime end_time = Objects.equals(endTime, "") || endTime == null ? LocalTime.MAX : TimeUtil.parseLocalTime(endTime);
+        LocalDate start_date = Objects.equals(startDate, "") ? LocalDate.MIN : TimeUtil.parseLocalDate(startDate);
+        LocalDate end_date = Objects.equals(endDate, "") ? LocalDate.MAX : TimeUtil.parseLocalDate(endDate);
+        LocalTime start_time = Objects.equals(startTime, "") ? LocalTime.MIN : TimeUtil.parseLocalTime(startTime);
+        LocalTime end_time = Objects.equals(endTime, "") ? LocalTime.MAX : TimeUtil.parseLocalTime(endTime);
 
         return super.getBetween(start_date, start_time, end_date, end_time);
     }

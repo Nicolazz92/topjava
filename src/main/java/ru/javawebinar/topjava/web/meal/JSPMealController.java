@@ -1,10 +1,8 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.TimeUtil;
 
@@ -19,8 +17,8 @@ import java.util.Objects;
  * gkislin
  * 16.10.2016
  */
-@Controller
-@RequestMapping(value = "/meals")
+//@Controller
+//@RequestMapping(value = "/meals")
 public class JspMealController extends AbstractMealController {
 
     @GetMapping("/delete")

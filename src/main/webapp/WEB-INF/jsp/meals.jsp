@@ -32,7 +32,7 @@
                         <dt><fmt:message key="meals.endTime"/>:</dt>
                         <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
                     </dl>
-                    <button type="button"><fmt:message key="meals.filter"/></button>
+                    <button type="button" onclick="filter()"><fmt:message key="meals.filter"/></button>
                 </form>
                 <hr>
                 <a class="btn btn-sm btn-info" onclick="add()"><fmt:message key="meals.add"/></a>
